@@ -101,11 +101,18 @@ def jenks(data, n_classes):
     kclass[n_classes] = data[len(data) - 1]
     kclass[0] = data[0]
 
+    data_groups = []
     while countNum > 1:
         elt = int(lower_class_limits[k][countNum] - 2)
+
+        if countNum == n_classes:
+            data_groups.append(data[elt+1:])
+        else:
+            data_groups.append(data[elt+1:k])
+
         kclass[countNum - 1] = data[elt]
         k = int(lower_class_limits[k][countNum] - 1)
         countNum -= 1
-
-    return kclass
+    data_groups.append(data[:k])
+    return kclass, data_groups
 
